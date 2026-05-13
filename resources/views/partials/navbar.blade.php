@@ -19,19 +19,19 @@
             </li>
 
             <li>
-                <a href="#">Services</a>
+                <a href="#services">Services</a>
             </li>
 
             <li>
-                <a href="#">Doctors</a>
+                <a href="#doctors">Doctors</a>
             </li>
 
             <li>
-                <a href="#">Features</a>
+                <a href="#features">Features</a>
             </li>
 
             <li>
-                <a href="#">FAQ</a>
+                <a href="#faq">FAQ</a>
             </li>
 
         </ul>

@@ -1,0 +1,134 @@
+/* =========================
+   LOGIN — PAGE SPECIFIC
+   Loaded only on login.blade.php
+   in addition to auth.css
+========================= */
+
+/* Forgot password link */
+.forgot-link {
+    font-size: 0.82rem;
+    color: #2563ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.forgot-link:hover {
+    opacity: 0.75;
+}
+
+/* =========================
+   TRUST BADGES (login panel)
+========================= */
+
+.auth-badges {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 22px 28px;
+    width: fit-content;
+}
+
+.auth-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.badge-num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+.badge-lbl {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-badge-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================
+   DIVIDER (login page)
+========================= */
+
+.auth-divider {
+    position: relative;
+    text-align: center;
+    margin: 24px 0;
+}
+
+.auth-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.auth-divider span {
+    position: relative;
+    background: #fafafa;
+    padding: 0 14px;
+    font-size: 0.82rem;
+    color: #9ca3af;
+}
+
+/* =========================
+   SOCIAL BUTTONS (login page)
+========================= */
+
+.social-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.social-btn {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 0.88rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    color: #374151;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.social-btn:hover {
+    border-color: #d1d5db;
+    background: #f9fafb;
+}
+
+/* =========================
+   RESPONSIVE — LOGIN ONLY
+========================= */
+
+@media(max-width: 900px) {
+    .auth-badges {
+        display: none;
+    }
+}
+
+@media(max-width: 480px) {
+    .social-btns {
+        grid-template-columns: 1fr;
+    }
+}
