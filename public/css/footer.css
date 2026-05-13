@@ -1,0 +1,354 @@
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+    background: #f8f8f8;
+
+    color: #111827;
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding-top: 90px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.footer-container{
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 90px;
+
+    padding-bottom: 70px;
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.footer-brand{
+    max-width: 360px;
+}
+
+.footer-logo{
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 1.45rem;
+
+    font-weight: 600;
+
+    color: #111827;
+
+    text-decoration: none;
+
+    margin-bottom: 22px;
+}
+
+.footer-logo-dot{
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #2563ff;
+
+    box-shadow:
+    0 0 18px rgba(37,99,255,0.35);
+}
+
+.footer-brand p{
+    font-size: 0.97rem;
+
+    line-height: 1.9;
+
+    color: #6b7280;
+
+    margin-bottom: 28px;
+}
+
+/* =========================================================
+   SOCIALS
+========================================================= */
+
+.footer-socials{
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    flex-wrap: wrap;
+}
+
+.footer-socials a{
+    color: #6b7280;
+
+    text-decoration: none;
+
+    font-size: 0.95rem;
+
+    transition: 0.3s ease;
+}
+
+.footer-socials a:hover{
+    color: #2563ff;
+}
+
+/* =========================================================
+   LINKS WRAPPER
+========================================================= */
+
+.footer-links-wrapper{
+    display: flex;
+
+    gap: 80px;
+
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   LINK COLUMN
+========================================================= */
+
+.footer-links{
+    min-width: 150px;
+}
+
+.footer-links h4{
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    margin-bottom: 22px;
+
+    color: #111827;
+}
+
+.footer-links a{
+    display: block;
+
+    text-decoration: none;
+
+    color: #6b7280;
+
+    font-size: 0.96rem;
+
+    margin-bottom: 14px;
+
+    transition: 0.3s ease;
+}
+
+.footer-links a:hover{
+    color: #2563ff;
+
+    transform: translateX(3px);
+}
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.footer-bottom{
+    border-top: 1px solid #e5e7eb;
+
+    padding: 24px 0;
+}
+
+.footer-bottom-container{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.footer-bottom p{
+    font-size: 0.92rem;
+
+    color: #6b7280;
+}
+
+/* =========================================================
+   BOTTOM LINKS
+========================================================= */
+
+.footer-bottom-links{
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+
+    flex-wrap: wrap;
+}
+
+.footer-bottom-links a{
+    text-decoration: none;
+
+    color: #6b7280;
+
+    font-size: 0.92rem;
+
+    transition: 0.3s ease;
+}
+
+.footer-bottom-links a:hover{
+    color: #2563ff;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px){
+
+    .footer{
+        padding-top: 70px;
+    }
+
+    .footer-container{
+        flex-direction: column;
+
+        gap: 50px;
+
+        padding-bottom: 55px;
+    }
+
+    .footer-brand{
+        max-width: 100%;
+    }
+
+    .footer-links-wrapper{
+        width: 100%;
+
+        justify-content: space-between;
+
+        gap: 40px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px){
+
+    .footer{
+        padding-top: 60px;
+    }
+
+    .footer-container{
+        gap: 42px;
+
+        padding-bottom: 45px;
+    }
+
+    .footer-logo{
+        font-size: 1.3rem;
+    }
+
+    .footer-brand p{
+        font-size: 0.94rem;
+
+        line-height: 1.8;
+    }
+
+    .footer-links-wrapper{
+        flex-direction: column;
+
+        gap: 32px;
+    }
+
+    .footer-links{
+        width: 100%;
+    }
+
+    .footer-links h4{
+        margin-bottom: 18px;
+    }
+
+    .footer-links a{
+        margin-bottom: 12px;
+    }
+
+    .footer-bottom-container{
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 16px;
+    }
+
+    .footer-bottom-links{
+        gap: 18px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px){
+
+    .footer{
+        padding-top: 52px;
+    }
+
+    .footer-container{
+        padding-bottom: 40px;
+    }
+
+    .footer-logo{
+        font-size: 1.2rem;
+    }
+
+    .footer-brand p{
+        font-size: 0.92rem;
+    }
+
+    .footer-socials{
+        gap: 14px;
+    }
+
+    .footer-socials a{
+        font-size: 0.9rem;
+    }
+
+    .footer-links h4{
+        font-size: 0.96rem;
+    }
+
+    .footer-links a{
+        font-size: 0.92rem;
+    }
+
+    .footer-bottom{
+        padding: 20px 0;
+    }
+
+    .footer-bottom p{
+        font-size: 0.86rem;
+    }
+
+    .footer-bottom-links a{
+        font-size: 0.86rem;
+    }
+}

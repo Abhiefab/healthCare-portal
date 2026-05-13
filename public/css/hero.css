@@ -1,0 +1,876 @@
+/* =========================================================
+   HERO SECTION
+========================================================= */
+
+.hero{
+    height: calc(100vh - 86px);
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    padding: 0;
+
+    background: #f8f8f8;
+
+    position: relative;
+}
+
+/* =========================================================
+   HERO LAYOUT
+========================================================= */
+
+.hero-container{
+    display: grid;
+
+    grid-template-columns: 61.5% 38.5%;
+
+    align-items: center;
+
+    gap: 40px;
+
+    height: 100%;
+
+    width: 92%;
+
+    padding: 0 40px;
+}
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.hero-content{
+    max-width: 620px;
+
+    margin-top: -10px;
+
+    padding-left: 20px;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.hero-content h1{
+    font-size: clamp(3.9rem, 4.8vw, 5.2rem);
+
+    line-height: 0.92;
+
+    font-weight: 500;
+
+    letter-spacing: -4px;
+
+    color: #050505;
+
+    margin-bottom: 18px;
+
+    max-width: 620px;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.hero-content p{
+    font-size: 0.98rem;
+
+    line-height: 1.7;
+
+    color: #6b7280;
+
+    max-width: 520px;
+
+    margin-bottom: 22px;
+
+    font-weight: 400;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.hero-buttons{
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 34px;
+}
+
+.primary-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 62px;
+
+    padding: 0 34px;
+
+    background: #2563ff;
+
+    color: white;
+
+    border-radius: 999px;
+
+    font-size: 0.96rem;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.primary-btn:hover{
+    background: #174ce6;
+
+    transform: translateY(-2px);
+}
+
+.secondary-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 62px;
+
+    padding: 0 34px;
+
+    background: transparent;
+
+    color: #111827;
+
+    border: 1.5px solid #e5e7eb;
+
+    border-radius: 999px;
+
+    font-size: 0.96rem;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition: 0.3s ease;
+
+    cursor: pointer;
+}
+
+.secondary-btn:hover{
+    background: #ffffff;
+
+    border-color: #dbeafe;
+}
+
+/* =========================================================
+   DOCTOR SECTION
+========================================================= */
+
+.doctor-preview{
+    margin-top: 20px;
+}
+
+.doctor-preview-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.doctor-preview-top h4{
+    font-size: 0.96rem;
+    font-weight: 500;
+
+    color: #111827;
+}
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+.doctor-arrows{
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.doctor-arrows button{
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    border: 1px solid #e5e7eb;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+
+    font-size: 0.95rem;
+}
+
+.doctor-arrows button:hover{
+    transform: translateY(-2px);
+}
+
+.active-arrow{
+    background: #2563ff !important;
+
+    color: white !important;
+
+    border-color: #2563ff !important;
+}
+
+/* =========================================================
+   DOCTOR CARDS
+========================================================= */
+
+.doctor-cards{
+    display: flex;
+    align-items: flex-end;
+
+    gap: 16px;
+
+    position: relative;
+}
+
+.doctor-card{
+    width: 138px;
+    height: 192px;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    background: #f3f4f6;
+
+    flex-shrink: 0;
+
+    transition: 0.4s ease;
+}
+
+.doctor-card:hover{
+    transform: translateY(-6px);
+}
+
+.doctor-card img{
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.rotate-card{
+    transform: rotate(-8deg) translateY(16px);
+}
+
+.see-all-card{
+    width: 138px;
+    height: 192px;
+
+    border-radius: 30px;
+
+    background: #f3f4f6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    color: #111827;
+
+    transition: 0.3s ease;
+
+    cursor: pointer;
+}
+
+.see-all-card:hover{
+    background: #2563ff;
+
+    color: white;
+}
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.hero-image-section{
+    position: relative;
+
+    height: 600px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: visible;
+
+    margin-top: 10px;
+
+    padding-right: 10px;
+}
+
+/* =========================================================
+   GLOW
+========================================================= */
+
+.hero-image-section::before{
+    content: "";
+
+    position: absolute;
+
+    width: 460px;
+    height: 460px;
+
+    background: rgba(255,255,255,0.20);
+
+    filter: blur(90px);
+
+    border-radius: 50%;
+
+    bottom: 60px;
+    right: 30px;
+
+    z-index: 2;
+}
+
+/* =========================================================
+   BLUE CARD
+========================================================= */
+
+.hero-image-bg{
+    position: absolute;
+
+    width: 100%;
+    max-width: 540px;
+
+    height: 90%;
+
+    right: 0;
+    bottom: 0;
+
+    border-radius: 40px;
+
+    background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.45), transparent 35%),
+    linear-gradient(
+        180deg,
+        #60a5fa 0%,
+        #2563ff 55%,
+        #1d4ed8 100%
+    );
+
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+/* =========================================================
+   HERO IMAGE
+========================================================= */
+
+.hero-image{
+    position: absolute;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    bottom: -1px;
+
+    height: 102%;
+
+    width: auto;
+
+    max-width: none;
+
+    object-fit: contain;
+
+    z-index: 5;
+
+    transition: 0.6s ease;
+}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px){
+
+    .hero{
+        height: auto;
+
+        padding: 40px 0 70px;
+
+        overflow: hidden;
+    }
+
+    .hero-container{
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 28px;
+
+        padding: 0 24px;
+
+        width: 100%;
+    }
+
+    /* CONTENT */
+
+    .hero-content{
+        display: contents;
+
+        width: 100%;
+
+        max-width: 100%;
+
+        padding-left: 0;
+
+        margin-top: 0;
+    }
+
+    .hero-content h1{
+        order: 1;
+
+        font-size: clamp(3rem, 6vw, 4.2rem);
+
+        line-height: 0.95;
+
+        letter-spacing: -3px;
+
+        max-width: 100%;
+
+        margin-bottom: 16px;
+    }
+
+    .hero-content p{
+        order: 2;
+
+        max-width: 100%;
+
+        margin-bottom: 0;
+    }
+
+    /* IMAGE SECTION */
+
+    .hero-image-section{
+        order: 3;
+
+        width: 100%;
+
+        height: 500px;
+
+        min-height: 500px;
+
+        margin-top: 10px;
+
+        padding-right: 0;
+
+        overflow: hidden;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+    }
+
+    .hero-image-bg{
+        width: 100%;
+
+        max-width: 680px;
+
+        height: 100%;
+
+        right: auto;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        border-radius: 34px;
+    }
+
+    .hero-image{
+        height: 94%;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+    }
+
+    .floating-social{
+        left: max(0px, calc(50% - 350px));
+
+        top: 50%;
+    }
+
+    /* BUTTONS */
+
+    .hero-buttons{
+        order: 4;
+
+        flex-wrap: wrap;
+
+        margin-top: 6px;
+
+        margin-bottom: 0;
+    }
+
+    /* DOCTORS */
+
+    .doctor-preview{
+        order: 5;
+
+        margin-top: 6px;
+
+        width: 100%;
+    }
+
+    .doctor-cards{
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        padding-bottom: 8px;
+
+        scrollbar-width: none;
+    }
+
+    .doctor-cards::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px){
+
+    .hero{
+        padding: 24px 0 54px;
+
+        overflow: hidden;
+    }
+
+    .hero-container{
+        gap: 22px;
+
+        padding: 0 16px;
+
+        width: 100%;
+
+        overflow: hidden;
+    }
+
+    .hero-content{
+        display: contents;
+    }
+
+    .hero-content h1{
+        order: 1;
+
+        font-size: 2.9rem;
+
+        line-height: 0.96;
+
+        letter-spacing: -2px;
+
+        margin-bottom: 14px;
+
+        word-break: break-word;
+    }
+
+    .hero-content p{
+        order: 2;
+
+        font-size: 0.98rem;
+
+        line-height: 1.75;
+
+        margin-bottom: 0;
+
+        max-width: 100%;
+    }
+
+    /* IMAGE SECTION */
+
+    .hero-image-section{
+        order: 3;
+
+        width: 100%;
+
+        height: 360px;
+
+        min-height: 360px;
+
+        margin-top: 8px;
+
+        padding-right: 0;
+
+        overflow: hidden;
+
+        position: relative;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+    }
+
+    .hero-image-bg{
+        width: 100%;
+
+        max-width: 100%;
+
+        height: 100%;
+
+        left: 50%;
+
+        right: auto;
+
+        transform: translateX(-50%);
+
+        border-radius: 28px;
+    }
+
+    .hero-image{
+        position: absolute;
+
+        height: 88%;
+
+        width: auto;
+
+        max-width: none;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        bottom: 0;
+    }
+
+    .floating-social{
+        left: -4px;
+
+        top: 52%;
+
+        transform: translateY(-50%) scale(0.78);
+
+        padding: 12px 9px;
+
+        gap: 12px;
+
+        border-radius: 20px;
+
+        z-index: 20;
+    }
+
+    .floating-social span{
+        font-size: 0.8rem;
+    }
+
+    /* BUTTONS */
+
+    .hero-buttons{
+        order: 4;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 14px;
+
+        margin-top: 4px;
+
+        margin-bottom: 0;
+
+        width: 100%;
+    }
+
+    .primary-btn,
+    .secondary-btn{
+        width: 100%;
+
+        height: 56px;
+
+        justify-content: center;
+
+        font-size: 0.95rem;
+    }
+
+    /* DOCTOR SECTION */
+
+    .doctor-preview{
+        order: 5;
+
+        margin-top: 2px;
+
+        width: 100%;
+    }
+
+    .doctor-preview-top{
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 14px;
+    }
+
+    .doctor-arrows{
+        display: none;
+    }
+
+    .doctor-cards{
+        gap: 12px;
+
+        overflow-x: auto;
+
+        overflow-y: hidden;
+
+        padding-bottom: 6px;
+
+        width: 100%;
+
+        scrollbar-width: none;
+    }
+
+    .doctor-cards::-webkit-scrollbar{
+        display: none;
+    }
+
+    .doctor-card,
+    .see-all-card{
+        width: 110px;
+
+        height: 150px;
+
+        border-radius: 22px;
+
+        flex-shrink: 0;
+    }
+
+    .rotate-card{
+        transform: rotate(-5deg) translateY(8px);
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px){
+
+    .hero{
+        padding: 18px 0 46px;
+    }
+
+    .hero-container{
+        padding: 0 14px;
+
+        gap: 20px;
+    }
+
+    .hero-content h1{
+        font-size: 2.45rem;
+
+        line-height: 0.94;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-content p{
+        font-size: 0.94rem;
+
+        line-height: 1.7;
+    }
+
+    /* IMAGE */
+
+    .hero-image-section{
+        height: 300px;
+
+        min-height: 300px;
+
+        margin-top: 6px;
+
+        width: 100%;
+    }
+
+    .hero-image-bg{
+        width: 100%;
+
+        height: 100%;
+
+        border-radius: 24px;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+    }
+
+    .hero-image{
+        height: 84%;
+
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        bottom: 0;
+    }
+
+    .floating-social{
+        left: -8px;
+
+        transform: translateY(-50%) scale(0.68);
+    }
+
+    /* BUTTONS */
+
+    .primary-btn,
+    .secondary-btn{
+        height: 54px;
+
+        font-size: 0.92rem;
+
+        padding: 0 20px;
+    }
+
+    /* DOCTOR CARDS */
+
+    .doctor-card,
+    .see-all-card{
+        width: 96px;
+
+        height: 132px;
+
+        border-radius: 20px;
+    }
+
+    .see-all-card{
+        font-size: 0.82rem;
+    }
+}

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home.index');
-});
+})->name('home');
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -13,3 +13,7 @@ Route::get('/login', function () {
 Route::get('/signup', function () {
     return view('auth.signup');
 })->name('signup');
+
+Route::get('/doctors', function () {
+    return view('doctors.index');
+})->name('doctors');

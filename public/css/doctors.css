@@ -1,0 +1,509 @@
+/* ========================================
+   DOCTORS PAGE
+======================================== */
+
+.doctors-page{
+    padding: 20px 0 46px;
+    background: #f6f8fc;
+    min-height: 100vh;
+}
+
+/* ========================================
+   HERO SECTION
+======================================== */
+
+.doctors-hero{
+    position: relative;
+    width: 100%;
+    min-height: 190px;
+    border-radius: 22px;
+    background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #f5f8ff 55%,
+        #eef4ff 100%
+    );
+    padding: 26px 30px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid #edf2fb;
+}
+
+.doctors-hero::before{
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(
+        circle,
+        rgba(30,99,255,0.08),
+        transparent 72%
+    );
+    z-index: 0;
+}
+
+/* ========================================
+   HERO CONTENT
+======================================== */
+
+.hero-content{
+    position: relative;
+    z-index: 3;
+    max-width: 360px;
+}
+
+.breadcrumb{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 14px;
+    font-size: 10px;
+    color: #7b8190;
+}
+
+.breadcrumb a{
+    color: #7b8190;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.breadcrumb a:hover{
+    color: #1e63ff;
+}
+
+.breadcrumb i{
+    font-size: 11px;
+}
+
+.hero-content h1{
+    font-size: 44px;
+    line-height: 0.95;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 12px;
+    letter-spacing: -1.5px;
+}
+
+.hero-content p{
+    font-size: 12px;
+    line-height: 1.8;
+    color: #687082;
+    max-width: 320px;
+}
+
+/* ========================================
+   HERO IMAGE
+======================================== */
+
+.hero-image{
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-image::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,1) 0%,
+            rgba(255,255,255,0.96) 36%,
+            rgba(245,248,255,0.90) 56%,
+            rgba(238,244,255,0.40) 76%,
+            rgba(238,244,255,0.05) 100%
+        ),
+        url('/images/doctors/eshthesh.png');
+
+    background-repeat: no-repeat;
+    background-position: center, right center;
+    background-size: cover, 34%;
+}
+
+.hero-image::after{
+    content: "";
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(
+        circle,
+        rgba(30,99,255,0.10),
+        transparent 72%
+    );
+}
+
+.hero-image img{
+    display: none;
+}
+
+/* ========================================
+   FILTER BAR
+======================================== */
+
+.filter-wrapper{
+    width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+    gap: 8px;
+    border: 1px solid #edf2fb;
+    margin-bottom: 18px;
+}
+
+.search-box,
+.filter-select{
+    height: 38px;
+    background: #fff;
+    border: 1px solid #e6ebf4;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+}
+
+.search-box{
+    gap: 7px;
+}
+
+.search-box i{
+    color: #9aa3b5;
+    font-size: 13px;
+}
+
+.search-box input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 12px;
+    font-family: inherit;
+    color: #111827;
+}
+
+.search-box input::placeholder{
+    color: #9aa3b5;
+}
+
+.filter-select select{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 12px;
+    font-family: inherit;
+    color: #111827;
+    cursor: pointer;
+}
+
+.filter-btn{
+    height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(
+        135deg,
+        #1e63ff,
+        #005cff
+    );
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.filter-btn:hover{
+    transform: translateY(-2px);
+}
+
+.filter-btn i{
+    font-size: 13px;
+}
+
+/* ========================================
+   DOCTORS GRID
+======================================== */
+
+.doctors-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+/* ========================================
+   DOCTOR CARD
+======================================== */
+
+.doctor-card{
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 10px;
+    border: 1px solid #edf2fb;
+    transition: 0.35s ease;
+}
+
+.doctor-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(30,99,255,0.08);
+}
+
+/* 20% SMALLER IMAGE */
+
+.doctor-image{
+    width: 100%;
+    height: 145px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #f4f7fd;
+}
+
+.doctor-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: 0.4s ease;
+}
+
+.doctor-card:hover .doctor-image img{
+    transform: scale(1.03);
+}
+
+/* ========================================
+   DOCTOR INFO
+======================================== */
+
+.doctor-status{
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #f0fdf4;
+    color: #16a34a;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+
+.doctor-status span{
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #16a34a;
+}
+
+.doctor-info h3{
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    color: #111827;
+    font-weight: 700;
+}
+
+.doctor-info h5{
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.doctor-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.doctor-meta p{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #5f6675;
+}
+
+.doctor-meta p i{
+    color: #1e63ff;
+    font-size: 12px;
+}
+
+.doctor-meta p:first-child i{
+    color: #fbbf24;
+}
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.doctor-actions{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.profile-btn{
+    flex: 1;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid #cfe0ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #1e63ff;
+    font-size: 11px;
+    font-weight: 700;
+    transition: 0.3s ease;
+}
+
+.profile-btn:hover{
+    background: #1e63ff;
+    color: #fff;
+}
+
+.appointment-btn{
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid #cfe0ff;
+    background: #fff;
+    color: #1e63ff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.appointment-btn:hover{
+    background: #1e63ff;
+    color: #fff;
+}
+
+/* ========================================
+   PAGINATION
+======================================== */
+
+.pagination{
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.page-btn{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #dbe5f7;
+    background: #fff;
+    color: #111827;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.page-btn:hover,
+.page-btn.active{
+    background: linear-gradient(
+        135deg,
+        #1e63ff,
+        #005cff
+    );
+    color: #fff;
+    border-color: transparent;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1200px){
+
+    .doctors-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 992px){
+
+    .filter-wrapper{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .doctors-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-content h1{
+        font-size: 38px;
+    }
+
+    .hero-image::before{
+        background-size: 48%;
+    }
+
+}
+
+@media (max-width: 768px){
+
+    .doctors-page{
+        padding: 18px 0 40px;
+    }
+
+    .doctors-hero{
+        min-height: 330px;
+        padding: 22px 18px;
+    }
+
+    .hero-content h1{
+        font-size: 32px;
+    }
+
+    .hero-content p{
+        font-size: 13px;
+    }
+
+    .hero-image::before{
+        background-size: 82%;
+        background-position: center bottom;
+    }
+
+    .filter-wrapper{
+        grid-template-columns: 1fr;
+    }
+
+    .doctors-grid{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 500px){
+
+    .doctor-image{
+        height: 220px;
+    }
+
+}

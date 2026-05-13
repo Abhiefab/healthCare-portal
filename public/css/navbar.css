@@ -1,4 +1,6 @@
-/* NAVBAR */
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar{
     width: 100%;
@@ -7,16 +9,21 @@
     z-index: 1000;
 }
 
-/* CONTAINER */
+/* =========================
+   NAVBAR CONTAINER
+========================= */
 
 .navbar-container{
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+    position: relative;
 }
 
-/* LOGO */
+/* =========================
+   LOGO
+========================= */
 
 .logo{
     display: flex;
@@ -24,6 +31,7 @@
     gap: 10px;
     flex-shrink: 0;
     text-decoration: none;
+    z-index: 1002;
 }
 
 .logo span{
@@ -41,14 +49,21 @@
     background: #2563ff;
     border-radius: 50% 50% 50% 0;
     transform: rotate(-45deg);
+    flex-shrink: 0;
 }
 
-/* NAV LINKS */
+/* =========================
+   NAV LINKS
+========================= */
 
 .nav-links{
     display: flex;
     align-items: center;
     gap: 8px;
+    list-style: none;
+}
+
+.nav-links li{
     list-style: none;
 }
 
@@ -59,22 +74,26 @@
     color: #111827;
     font-size: 0.9rem;
     font-weight: 400;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav-links li a:hover{
     background: #efefef;
+    transform: translateY(-1px);
 }
 
 .nav-links li a.active{
     background: #f0f0f0;
 }
 
-/* RIGHT SIDE */
+/* =========================
+   RIGHT SIDE
+========================= */
 
 .nav-right{
     display: flex;
@@ -82,11 +101,13 @@
     gap: 12px;
 }
 
-/* THEME BUTTON */
+/* =========================
+   THEME BUTTON
+========================= */
 
 .theme-toggle{
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     border: none;
     background: #f5f5f5;
@@ -94,18 +115,22 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .theme-toggle:hover{
     transform: rotate(15deg);
+    background: #eeeeee;
 }
 
 .theme-toggle span{
     font-size: 0.9rem;
 }
 
-/* AUTH BOX */
+/* =========================
+   AUTH BOX
+========================= */
 
 .auth-box{
     display: flex;
@@ -113,6 +138,7 @@
     background: #f5f5f5;
     border-radius: 999px;
     padding: 4px 8px;
+    flex-shrink: 0;
 }
 
 /* DIVIDER */
@@ -132,8 +158,9 @@
     color: #111827;
     font-weight: 400;
     font-size: 0.9rem;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .login-btn:hover,
@@ -141,48 +168,119 @@
     color: #2563ff;
 }
 
-/* MOBILE MENU */
+/* =========================
+   HAMBURGER BUTTON
+========================= */
 
 .mobile-menu-btn{
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
     border: none;
     background: #f5f5f5;
     display: none;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
     cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    z-index: 1002;
+    flex-shrink: 0;
 }
+
+.mobile-menu-btn:hover{
+    background: #eeeeee;
+}
+
+/* HAMBURGER LINES */
 
 .mobile-menu-btn span{
-    width: 16px;
+    position: absolute;
+    width: 18px;
     height: 2px;
     background: #111827;
-    border-radius: 20px;
+    border-radius: 999px;
+    transition: all 0.3s ease;
 }
 
-/* RESPONSIVE */
+/* TOP */
 
-@media(max-width: 1100px){
-
-    .nav-links{
-        gap: 6px;
-    }
-
-    .nav-links li a{
-        padding: 9px 14px;
-        font-size: 0.85rem;
-    }
-
+.mobile-menu-btn span:nth-child(1){
+    transform: translateY(-6px);
 }
+
+/* MIDDLE */
+
+.mobile-menu-btn span:nth-child(2){
+    transform: translateY(0);
+}
+
+/* BOTTOM */
+
+.mobile-menu-btn span:nth-child(3){
+    transform: translateY(6px);
+}
+
+/* ACTIVE STATE */
+
+.mobile-menu-btn.active span:nth-child(1){
+    transform: rotate(45deg);
+}
+
+.mobile-menu-btn.active span:nth-child(2){
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3){
+    transform: rotate(-45deg);
+}
+
+/* =========================
+   MOBILE MENU PANEL
+========================= */
 
 @media(max-width: 992px){
 
     .nav-links{
-        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        border-radius: 28px;
+        padding: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        display: flex;
+
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transform: translateY(-10px);
+
+        transition: all 0.3s ease;
+
+        box-shadow:
+        0 10px 40px rgba(0,0,0,0.06);
+    }
+
+    /* OPEN MENU */
+
+    .nav-links.active{
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .nav-links li a{
+        width: 100%;
+        justify-content: center;
+        padding: 14px;
+        border-radius: 18px;
+        font-size: 0.95rem;
     }
 
     .mobile-menu-btn{
@@ -190,6 +288,10 @@
     }
 
 }
+
+/* =========================
+   TABLET
+========================= */
 
 @media(max-width: 768px){
 
@@ -205,7 +307,15 @@
         font-size: 1.3rem;
     }
 
+    .navbar-container{
+        gap: 12px;
+    }
+
 }
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width: 576px){
 
@@ -215,6 +325,17 @@
 
     .logo span{
         font-size: 1.2rem;
+    }
+
+    .mobile-menu-btn{
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+    }
+
+    .nav-links{
+        top: 74px;
+        padding: 14px;
     }
 
 }
