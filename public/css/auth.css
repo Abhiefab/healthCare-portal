@@ -166,6 +166,34 @@
     color: #374151;
 }
 
+.auth-alert {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 12px;
+    color: #9f1239;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+}
+
+.auth-alert strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.auth-alert ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.form-error {
+    color: #dc2626;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
 .form-group-row {
     display: flex;
     align-items: center;

@@ -85,25 +85,39 @@
                 </div>
 
                 <!-- Form -->
-                <form class="auth-form" action="/signup" method="POST">
+                @if ($errors->any())
+                    <div class="auth-alert" role="alert">
+                        <strong>Please fix these details.</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form class="auth-form" action="{{ route('signup.store') }}" method="POST">
                     @csrf
 
                     <!-- Role selector -->
                     <div class="role-selector">
 
-                        <input type="radio" id="role-patient" name="role" value="patient" checked>
+                        <input type="radio" id="role-patient" name="role" value="patient" @checked(old('role', 'patient') === 'patient')>
                         <label for="role-patient" class="role-option">
                             <span class="role-icon">🧑‍⚕️</span>
                             <span>I'm a Patient</span>
                         </label>
 
-                        <input type="radio" id="role-doctor" name="role" value="doctor">
+                        <input type="radio" id="role-doctor" name="role" value="doctor" @checked(old('role') === 'doctor')>
                         <label for="role-doctor" class="role-option">
                             <span class="role-icon">👨‍⚕️</span>
                             <span>I'm a Doctor</span>
                         </label>
 
                     </div>
+                    @error('role')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
 
                     <!-- Name row -->
                     <div class="form-row">
@@ -112,16 +126,22 @@
                             <label for="first_name">First name</label>
                             <div class="input-wrap">
                                 <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                <input type="text" id="first_name" name="first_name" placeholder="John" required>
+                                <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="John" required>
                             </div>
+                            @error('first_name')
+                                <span class="form-error">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="last_name">Last name</label>
                             <div class="input-wrap">
                                 <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                <input type="text" id="last_name" name="last_name" placeholder="Doe" required>
+                                <input type="text" id="last_name" name="last_name" value="{{ old('last_name') }}" placeholder="Doe" required>
                             </div>
+                            @error('last_name')
+                                <span class="form-error">{{ $message }}</span>
+                            @enderror
                         </div>
 
                     </div>
@@ -130,8 +150,11 @@
                         <label for="email">Email address</label>
                         <div class="input-wrap">
                             <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required>
                         </div>
+                        @error('email')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -147,6 +170,9 @@
                             <div class="strength-fill" id="strength-fill"></div>
                         </div>
                         <span class="strength-label" id="strength-label"></span>
+                        @error('password')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -158,11 +184,14 @@
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                             </button>
                         </div>
+                        @error('password_confirmation')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Terms -->
                     <div class="form-check">
-                        <input type="checkbox" id="terms" name="terms" required>
+                        <input type="checkbox" id="terms" name="terms" value="1" @checked(old('terms')) required>
                         <label for="terms">
                             I agree to the
                             <a href="#">Terms of Service</a>
@@ -170,6 +199,9 @@
                             <a href="#">Privacy Policy</a>
                         </label>
                     </div>
+                    @error('terms')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
 
                     <button type="submit" class="auth-submit-btn">
                         Create Account

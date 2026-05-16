@@ -84,7 +84,18 @@
                 </div>
 
                 <!-- Form -->
-                <form class="auth-form" action="/login" method="POST">
+                @if ($errors->any())
+                    <div class="auth-alert" role="alert">
+                        <strong>Please check the login details.</strong>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form class="auth-form" action="{{ route('login.store') }}" method="POST">
                     @csrf
 
                     <div class="form-group">
@@ -95,11 +106,15 @@
                                 type="email"
                                 id="email"
                                 name="email"
+                                value="{{ old('email') }}"
                                 placeholder="you@example.com"
                                 autocomplete="email"
                                 required
                             >
                         </div>
+                        @error('email')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -121,6 +136,9 @@
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                             </button>
                         </div>
+                        @error('password')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Remember me -->
