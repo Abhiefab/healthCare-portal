@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\DoctorProfile;
+use App\Models\DoctorAvailability;
 use App\Models\User;
 use App\Models\Appointment;
+use App\Models\PatientMedicalProfile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -158,6 +160,22 @@ class DatabaseSeeder extends Seeder
                     'image_path' => $doctor['image_path'],
                 ],
             );
+
+            $profile = $user->doctorProfile;
+
+            foreach ([1, 3, 5] as $day) {
+                DoctorAvailability::updateOrCreate(
+                    [
+                        'doctor_profile_id' => $profile->id,
+                        'day_of_week' => $day,
+                        'starts_at' => '09:00',
+                    ],
+                    [
+                        'ends_at' => '13:00',
+                        'is_active' => true,
+                    ],
+                );
+            }
         }
 
         $patient = User::updateOrCreate(
@@ -166,6 +184,19 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Demo Patient',
                 'password' => Hash::make('Patient@12345'),
                 'role' => 'patient',
+            ],
+        );
+
+        PatientMedicalProfile::updateOrCreate(
+            ['user_id' => $patient->id],
+            [
+                'age' => 32,
+                'gender' => 'Not specified',
+                'blood_group' => 'O+',
+                'emergency_contact' => '+1 555 0100',
+                'allergies' => 'None recorded',
+                'conditions' => 'No chronic conditions recorded',
+                'medications' => 'None recorded',
             ],
         );
 

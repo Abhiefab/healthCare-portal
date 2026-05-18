@@ -16,7 +16,7 @@
                     <i class="ri-home-5-line"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('doctors') }}" class="nav-item">
+                <a href="{{ route('doctors', ['from' => 'admin']) }}" class="nav-item">
                     <i class="ri-user-star-line"></i>
                     <span>Doctors</span>
                 </a>
@@ -33,6 +33,12 @@
                 <h4>{{ auth()->user()->name }}</h4>
                 <p>Administrator</p>
             </div>
+            <form method="POST" action="{{ route('logout') }}" class="sidebar-logout-form">
+                @csrf
+                <button type="submit" title="Logout">
+                    <i class="ri-logout-box-r-line"></i>
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -43,6 +49,13 @@
                 <p>Manage doctors, patients, and the public doctor directory.</p>
             </div>
             <div class="topbar-right">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="logout-action" type="submit">
+                        <i class="ri-logout-box-r-line"></i>
+                        Logout
+                    </button>
+                </form>
                 <div class="profile-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
             </div>
         </header>
@@ -63,7 +76,7 @@
                 <div>
                     <p>Total Doctors</p>
                     <h2>{{ $totalDoctors }}</h2>
-                    <span>DB connected</span>
+                    <span>Available in directory</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -71,7 +84,7 @@
                 <div>
                     <p>Total Patients</p>
                     <h2>{{ $totalPatients }}</h2>
-                    <span>Registered users</span>
+                    <span>Patient accounts</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -79,7 +92,7 @@
                 <div>
                     <p>Pending Visits</p>
                     <h2>{{ $pendingAppointments }}</h2>
-                    <span>Appointment requests</span>
+                    <span>Awaiting review</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -87,7 +100,7 @@
                 <div>
                     <p>Average Rating</p>
                     <h2>{{ number_format($averageRating, 1) }}</h2>
-                    <span>Doctor profiles</span>
+                    <span>Across listed doctors</span>
                 </div>
             </div>
         </section>
@@ -157,9 +170,13 @@
             <div class="table-header">
                 <h2>Doctors</h2>
                 <div class="table-actions">
-                    <a href="{{ route('doctors') }}" class="filter-btn">
+                    <a href="{{ route('doctors', ['from' => 'admin']) }}" class="filter-btn">
                         <i class="ri-external-link-line"></i>
-                        Public Page
+                        All Doctors
+                    </a>
+                    <a href="{{ route('doctors', ['from' => 'admin', 'status' => 'Available']) }}" class="filter-btn">
+                        <i class="ri-heart-pulse-line"></i>
+                        Available
                     </a>
                 </div>
             </div>

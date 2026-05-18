@@ -48,16 +48,42 @@
 
             <!-- AUTH -->
             <div class="auth-box">
+                @auth
+                    @php
+                        $dashboardRoute = match (auth()->user()->role) {
+                            'admin' => 'admin.dashboard',
+                            'doctor' => 'doctor.dashboard',
+                            default => 'patient.dashboard',
+                        };
+                    @endphp
 
-                <a href="/login" class="login-btn">
-                    Log in
-                </a>
+                    <span class="session-pill">
+                        {{ auth()->user()->name }} · {{ ucfirst(auth()->user()->role) }}
+                    </span>
 
-                <div class="divider"></div>
+                    <div class="divider"></div>
 
-                <a href="/signup" class="signup-btn">
-                    Sign up
-                </a>
+                    <a href="{{ route($dashboardRoute) }}" class="login-btn">
+                        Dashboard
+                    </a>
+
+                    <div class="divider"></div>
+
+                    <form method="POST" action="{{ route('logout') }}" class="nav-logout-form">
+                        @csrf
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="login-btn">
+                        Log in
+                    </a>
+
+                    <div class="divider"></div>
+
+                    <a href="{{ route('signup') }}" class="signup-btn">
+                        Sign up
+                    </a>
+                @endauth
 
             </div>
 

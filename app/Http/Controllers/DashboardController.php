@@ -31,25 +31,31 @@ class DashboardController extends Controller
     {
         $this->authorizeRole('doctor');
 
-        $doctor = $request->user()->load('doctorProfile');
+        $doctor = $request->user()->load('doctorProfile.availabilities');
 
         if (! $doctor->doctorProfile) {
             $doctor->doctorProfile()->create([
                 'title' => 'Doctor',
                 'status' => 'Available',
             ]);
-            $doctor->load('doctorProfile');
+            $doctor->load('doctorProfile.availabilities');
         }
 
         return view('doctor.dashboard', [
             'doctor' => $doctor,
             'profile' => $doctor->doctorProfile,
+            'availabilitySlots' => $doctor->doctorProfile->availabilities()
+                ->orderBy('day_of_week')
+                ->orderBy('starts_at')
+                ->get(),
             'appointments' => $doctor->doctorProfile->appointments()
                 ->with('patient')
                 ->latest('appointment_at')
                 ->get(),
             'pendingAppointments' => $doctor->doctorProfile->appointments()->where('status', 'Pending')->count(),
             'confirmedAppointments' => $doctor->doctorProfile->appointments()->where('status', 'Confirmed')->count(),
+            'todayAppointments' => $doctor->doctorProfile->appointments()->whereDate('appointment_at', today())->count(),
+            'completedAppointments' => $doctor->doctorProfile->appointments()->where('status', 'Completed')->count(),
             'totalDoctors' => User::where('role', 'doctor')->count(),
             'totalPatients' => User::where('role', 'patient')->count(),
             'topDoctors' => $this->doctorQuery()->orderByDesc('doctor_profiles.rating')->limit(5)->get(),
@@ -64,6 +70,7 @@ class DashboardController extends Controller
 
         return view('patient.dashboard', [
             'patient' => $request->user(),
+            'medicalProfile' => $request->user()->medicalProfile,
             'doctors' => $doctors,
             'appointments' => $request->user()->patientAppointments()
                 ->with('doctorProfile.user')
@@ -73,6 +80,9 @@ class DashboardController extends Controller
                 ->whereIn('status', ['Pending', 'Confirmed'])
                 ->where('appointment_at', '>=', now())
                 ->count(),
+            'pendingAppointments' => $request->user()->patientAppointments()->where('status', 'Pending')->count(),
+            'completedAppointments' => $request->user()->patientAppointments()->where('status', 'Completed')->count(),
+            'cancelledAppointments' => $request->user()->patientAppointments()->where('status', 'Cancelled')->count(),
             'availableDoctors' => $doctors->where('status', 'Available')->count(),
             'specialtyCount' => $doctors->pluck('specialization')->filter()->unique()->count(),
             'topRating' => $doctors->max('rating') ?: 0,

@@ -11,15 +11,19 @@ class Appointment extends Model
         'patient_id',
         'doctor_profile_id',
         'appointment_at',
+        'reschedule_requested_at',
         'reason',
+        'reschedule_reason',
         'status',
         'notes',
+        'prescription',
     ];
 
     protected function casts(): array
     {
         return [
             'appointment_at' => 'datetime',
+            'reschedule_requested_at' => 'datetime',
         ];
     }
 

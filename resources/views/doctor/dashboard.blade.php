@@ -3,6 +3,10 @@
 @section('title', 'Doctor Dashboard')
 
 @section('content')
+@php
+    $dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+@endphp
+
 <div class="admin-dashboard">
     <aside class="sidebar">
         <div>
@@ -16,7 +20,7 @@
                     <i class="ri-home-5-line"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('doctors') }}" class="nav-item">
+                <a href="{{ route('doctors', ['from' => 'doctor']) }}" class="nav-item">
                     <i class="ri-user-star-line"></i>
                     <span>Directory</span>
                 </a>
@@ -29,6 +33,12 @@
                 <h4>{{ $doctor->name }}</h4>
                 <p>{{ $profile->title }}</p>
             </div>
+            <form method="POST" action="{{ route('logout') }}" class="sidebar-logout-form">
+                @csrf
+                <button type="submit" title="Logout">
+                    <i class="ri-logout-box-r-line"></i>
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -39,6 +49,13 @@
                 <p>Welcome back, {{ $doctor->name }}. Your profile is connected to the doctor directory.</p>
             </div>
             <div class="topbar-right">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="logout-action" type="submit">
+                        <i class="ri-logout-box-r-line"></i>
+                        Logout
+                    </button>
+                </form>
                 <div class="profile-avatar">{{ strtoupper(substr($doctor->name, 0, 1)) }}</div>
             </div>
         </header>
@@ -55,17 +72,17 @@
             <div class="stat-card">
                 <div class="stat-icon blue"><i class="ri-stethoscope-line"></i></div>
                 <div>
-                    <p>Specialization</p>
-                    <h2 class="stat-text">{{ $profile->specialization ?: 'Not set' }}</h2>
-                    <span>{{ $profile->status }}</span>
+                    <p>Availability</p>
+                    <h2 class="stat-text">{{ $profile->status }}</h2>
+                    <span>{{ $profile->specialization ?: 'General Practice' }}</span>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon yellow"><i class="ri-star-line"></i></div>
+                <div class="stat-icon yellow"><i class="ri-calendar-event-line"></i></div>
                 <div>
-                    <p>Rating</p>
-                    <h2>{{ number_format($profile->rating, 1) }}</h2>
-                    <span>{{ $profile->review_count }} reviews</span>
+                    <p>Today</p>
+                    <h2>{{ $todayAppointments }}</h2>
+                    <span>Appointments</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -79,9 +96,9 @@
             <div class="stat-card">
                 <div class="stat-icon purple"><i class="ri-user-star-line"></i></div>
                 <div>
-                    <p>Confirmed Visits</p>
-                    <h2>{{ $confirmedAppointments }}</h2>
-                    <span>Scheduled</span>
+                    <p>Completed Visits</p>
+                    <h2>{{ $completedAppointments }}</h2>
+                    <span>Care delivered</span>
                 </div>
             </div>
         </section>
@@ -102,13 +119,134 @@
                     <span>{{ $profile->experience_years }}+ years</span>
                     <span>{{ $profile->status }}</span>
                     <span>{{ $profile->specialization ?: 'General Practice' }}</span>
+                    <span>{{ number_format($profile->rating, 1) }} rating</span>
                 </div>
             </div>
         </section>
 
         <section class="table-section">
             <div class="table-header">
+                <h2>Availability & Profile</h2>
+                <div class="table-actions">
+                    <a href="{{ route('doctors', ['from' => 'doctor']) }}" class="filter-btn">
+                        <i class="ri-eye-line"></i>
+                        View Public Profile
+                    </a>
+                </div>
+            </div>
+
+            <form class="doctor-form" method="POST" action="{{ route('doctor.profile.update') }}">
+                @csrf
+                @method('PUT')
+                <div class="form-grid">
+                    <label>
+                        <span>Availability</span>
+                        <select name="status" required>
+                            @foreach (['Available', 'Busy', 'Offline'] as $status)
+                                <option value="{{ $status }}" @selected(old('status', $profile->status) === $status)>{{ $status }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        <span>Title</span>
+                        <input name="title" value="{{ old('title', $profile->title) }}" required>
+                    </label>
+                    <label>
+                        <span>Specialization</span>
+                        <input name="specialization" value="{{ old('specialization', $profile->specialization) }}" placeholder="General Medicine">
+                    </label>
+                    <label>
+                        <span>Experience Years</span>
+                        <input type="number" min="0" max="70" name="experience_years" value="{{ old('experience_years', $profile->experience_years) }}" required>
+                    </label>
+                    <label>
+                        <span>Location</span>
+                        <input name="location" value="{{ old('location', $profile->location) }}" placeholder="Clinic or hospital">
+                    </label>
+                    <label>
+                        <span>Image Path</span>
+                        <input name="image_path" value="{{ old('image_path', $profile->image_path) }}" placeholder="images/doctors/doctor5.png">
+                    </label>
+                </div>
+                <button class="add-btn" type="submit">
+                    <i class="ri-save-line"></i>
+                    Save Profile
+                </button>
+            </form>
+        </section>
+
+        <section class="table-section">
+            <div class="table-header">
+                <h2>Weekly Availability</h2>
+            </div>
+
+            <form class="doctor-form" method="POST" action="{{ route('doctor.availability.store') }}">
+                @csrf
+                <div class="form-grid">
+                    <label>
+                        <span>Day</span>
+                        <select name="day_of_week" required>
+                            @foreach ($dayNames as $index => $dayName)
+                                <option value="{{ $index }}">{{ $dayName }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        <span>Starts</span>
+                        <input type="time" name="starts_at" required>
+                    </label>
+                    <label>
+                        <span>Ends</span>
+                        <input type="time" name="ends_at" required>
+                    </label>
+                </div>
+                <button class="add-btn" type="submit">
+                    <i class="ri-add-line"></i>
+                    Add Slot
+                </button>
+            </form>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($availabilitySlots as $slot)
+                            <tr>
+                                <td>{{ $dayNames[$slot->day_of_week] }}</td>
+                                <td>{{ \Carbon\Carbon::parse($slot->starts_at)->format('h:i A') }} - {{ \Carbon\Carbon::parse($slot->ends_at)->format('h:i A') }}</td>
+                                <td>
+                                    <form method="POST" action="{{ route('doctor.availability.destroy', $slot) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="danger-btn" type="submit">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="empty-state">No weekly slots added yet.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <div class="table-header">
                 <h2>Patient Appointments</h2>
+                <div class="table-actions">
+                    <a href="{{ route('doctors', ['from' => 'doctor']) }}" class="filter-btn">
+                        <i class="ri-user-search-line"></i>
+                        Browse Directory
+                    </a>
+                </div>
             </div>
             <div class="table-wrapper">
                 <table>
@@ -129,6 +267,14 @@
                                 <td>{{ $appointment->reason ?: 'General consultation' }}</td>
                                 <td><span class="status {{ strtolower($appointment->status) }}">{{ $appointment->status }}</span></td>
                                 <td>
+                                    @if ($appointment->reschedule_requested_at)
+                                        <div class="request-note">
+                                            Requested: {{ $appointment->reschedule_requested_at->format('M d, Y h:i A') }}
+                                            @if ($appointment->reschedule_reason)
+                                                <span>{{ $appointment->reschedule_reason }}</span>
+                                            @endif
+                                        </div>
+                                    @endif
                                     <form class="status-form" method="POST" action="{{ route('appointments.update', $appointment) }}">
                                         @csrf
                                         @method('PUT')
@@ -137,7 +283,11 @@
                                                 <option value="{{ $status }}" @selected($appointment->status === $status)>{{ $status }}</option>
                                             @endforeach
                                         </select>
+                                        @if ($appointment->reschedule_requested_at)
+                                            <input type="hidden" name="appointment_at" value="{{ $appointment->reschedule_requested_at->format('Y-m-d H:i:s') }}">
+                                        @endif
                                         <input name="notes" value="{{ $appointment->notes }}" placeholder="Notes">
+                                        <input name="prescription" value="{{ $appointment->prescription }}" placeholder="Prescription">
                                         <button class="add-btn" type="submit">Save</button>
                                     </form>
                                 </td>

@@ -16,7 +16,7 @@
                     <i class="ri-home-5-line"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('doctors') }}" class="nav-item">
+                <a href="{{ route('doctors', ['from' => 'patient']) }}" class="nav-item">
                     <i class="ri-user-star-line"></i>
                     <span>Doctors</span>
                 </a>
@@ -29,6 +29,12 @@
                 <h4>{{ $patient->name }}</h4>
                 <p>Patient</p>
             </div>
+            <form method="POST" action="{{ route('logout') }}" class="sidebar-logout-form">
+                @csrf
+                <button type="submit" title="Logout">
+                    <i class="ri-logout-box-r-line"></i>
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -39,6 +45,13 @@
                 <p>Find available doctors and compare specialists from the live directory.</p>
             </div>
             <div class="topbar-right">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="logout-action" type="submit">
+                        <i class="ri-logout-box-r-line"></i>
+                        Logout
+                    </button>
+                </form>
                 <div class="profile-avatar">{{ strtoupper(substr($patient->name, 0, 1)) }}</div>
             </div>
         </header>
@@ -63,17 +76,17 @@
             <div class="stat-card">
                 <div class="stat-icon green"><i class="ri-pulse-line"></i></div>
                 <div>
-                    <p>Specialties</p>
-                    <h2>{{ $specialtyCount }}</h2>
-                    <span>Across departments</span>
+                    <p>Pending Requests</p>
+                    <h2>{{ $pendingAppointments }}</h2>
+                    <span>Waiting for confirmation</span>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon yellow"><i class="ri-star-line"></i></div>
                 <div>
-                    <p>Top Rating</p>
-                    <h2>{{ number_format($topRating, 1) }}</h2>
-                    <span>Patient reviews</span>
+                    <p>Completed Visits</p>
+                    <h2>{{ $completedAppointments }}</h2>
+                    <span>Consultations finished</span>
                 </div>
             </div>
             <div class="stat-card">
@@ -84,6 +97,77 @@
                     <span>Pending or confirmed</span>
                 </div>
             </div>
+        </section>
+
+        <section class="profile-panel">
+            <div class="profile-media profile-placeholder">
+                {{ strtoupper(substr($patient->name, 0, 1)) }}
+            </div>
+            <div>
+                <p class="eyebrow">Care Overview</p>
+                <h2>{{ $patient->name }}</h2>
+                <p>Track appointments, compare available doctors, and manage visit requests from one place.</p>
+                <div class="profile-tags">
+                    <span>{{ $specialtyCount }} specialties</span>
+                    <span>{{ number_format($topRating, 1) }} top rating</span>
+                    <span>{{ $cancelledAppointments }} cancelled</span>
+                </div>
+                <div class="quick-actions">
+                    <a href="{{ route('doctors', ['from' => 'patient', 'status' => 'Available']) }}" class="add-btn">
+                        <i class="ri-calendar-check-line"></i>
+                        Book Available Doctor
+                    </a>
+                    <a href="{{ route('doctors', ['from' => 'patient']) }}" class="filter-btn">
+                        <i class="ri-search-line"></i>
+                        Compare Doctors
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <div class="table-header">
+                <h2>Medical Profile</h2>
+            </div>
+
+            <form class="doctor-form" method="POST" action="{{ route('patient.medical-profile.update') }}">
+                @csrf
+                @method('PUT')
+                <div class="form-grid">
+                    <label>
+                        <span>Age</span>
+                        <input type="number" min="0" max="120" name="age" value="{{ old('age', $medicalProfile?->age) }}">
+                    </label>
+                    <label>
+                        <span>Gender</span>
+                        <input name="gender" value="{{ old('gender', $medicalProfile?->gender) }}" placeholder="Optional">
+                    </label>
+                    <label>
+                        <span>Blood Group</span>
+                        <input name="blood_group" value="{{ old('blood_group', $medicalProfile?->blood_group) }}" placeholder="O+">
+                    </label>
+                    <label>
+                        <span>Emergency Contact</span>
+                        <input name="emergency_contact" value="{{ old('emergency_contact', $medicalProfile?->emergency_contact) }}">
+                    </label>
+                    <label>
+                        <span>Allergies</span>
+                        <input name="allergies" value="{{ old('allergies', $medicalProfile?->allergies) }}" placeholder="None">
+                    </label>
+                    <label>
+                        <span>Conditions</span>
+                        <input name="conditions" value="{{ old('conditions', $medicalProfile?->conditions) }}" placeholder="Diabetes, asthma...">
+                    </label>
+                    <label>
+                        <span>Current Medications</span>
+                        <input name="medications" value="{{ old('medications', $medicalProfile?->medications) }}" placeholder="Medication names">
+                    </label>
+                </div>
+                <button class="add-btn" type="submit">
+                    <i class="ri-save-line"></i>
+                    Save Medical Profile
+                </button>
+            </form>
         </section>
 
         <section class="table-section">
@@ -107,10 +191,29 @@
                             <tr>
                                 <td>{{ $appointment->doctorProfile->user->name }}</td>
                                 <td>{{ $appointment->appointment_at->format('M d, Y h:i A') }}</td>
-                                <td>{{ $appointment->reason ?: 'General consultation' }}</td>
+                                <td>
+                                    {{ $appointment->reason ?: 'General consultation' }}
+                                    @if ($appointment->reschedule_requested_at)
+                                        <div class="request-note">
+                                            Reschedule requested for {{ $appointment->reschedule_requested_at->format('M d, Y h:i A') }}
+                                        </div>
+                                    @endif
+                                    @if ($appointment->prescription)
+                                        <div class="request-note">
+                                            Prescription: {{ $appointment->prescription }}
+                                        </div>
+                                    @endif
+                                </td>
                                 <td><span class="status {{ strtolower($appointment->status) }}">{{ $appointment->status }}</span></td>
                                 <td>
                                     @if ($appointment->status !== 'Cancelled' && $appointment->status !== 'Completed')
+                                        <form class="inline-booking-form" method="POST" action="{{ route('appointments.update', $appointment) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="datetime-local" name="reschedule_requested_at" required>
+                                            <input name="reschedule_reason" placeholder="Reason for new time">
+                                            <button class="add-btn" type="submit">Reschedule</button>
+                                        </form>
                                         <form method="POST" action="{{ route('appointments.update', $appointment) }}">
                                             @csrf
                                             @method('PUT')
@@ -136,9 +239,13 @@
             <div class="table-header">
                 <h2>Recommended Doctors</h2>
                 <div class="table-actions">
-                    <a href="{{ route('doctors') }}" class="filter-btn">
+                    <a href="{{ route('doctors', ['from' => 'patient']) }}" class="filter-btn">
                         <i class="ri-search-line"></i>
                         Browse All
+                    </a>
+                    <a href="{{ route('doctors', ['from' => 'patient', 'status' => 'Available']) }}" class="filter-btn">
+                        <i class="ri-calendar-check-line"></i>
+                        Available
                     </a>
                 </div>
             </div>

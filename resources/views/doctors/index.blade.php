@@ -8,6 +8,24 @@
 @section('title', 'Doctors - Medicom')
 
 @section('content')
+@php
+    $user = auth()->user();
+    $role = $user?->role;
+    $dashboardRoute = match ($role) {
+        'admin' => 'admin.dashboard',
+        'doctor' => 'doctor.dashboard',
+        'patient' => 'patient.dashboard',
+        default => null,
+    };
+    $dashboardLabel = match ($role) {
+        'admin' => 'Admin Dashboard',
+        'doctor' => 'Doctor Dashboard',
+        'patient' => 'Patient Dashboard',
+        default => 'Dashboard',
+    };
+    $from = ($filters['from'] ?? null) === $role ? $role : null;
+@endphp
+
 <section class="doctors-page">
     <div class="container">
         <div class="doctors-hero">
@@ -19,39 +37,69 @@
                 </div>
                 <h1>All Doctors</h1>
                 <p>Browse experienced and qualified doctors across multiple specialties and healthcare departments.</p>
+
+                @if ($dashboardRoute && $from)
+                    <a href="{{ route($dashboardRoute) }}" class="dashboard-back-btn">
+                        <i class="ri-arrow-left-line"></i>
+                        Back to {{ $dashboardLabel }}
+                    </a>
+                @endif
             </div>
             <div class="hero-image"></div>
         </div>
 
-        <div class="filter-wrapper">
+        @if (session('status'))
+            <div class="directory-alert success">{{ session('status') }}</div>
+        @endif
+
+        @if ($errors->any())
+            <div class="directory-alert error">{{ $errors->first() }}</div>
+        @endif
+
+        <form class="filter-wrapper" method="GET" action="{{ route('doctors') }}">
+            @if ($from)
+                <input type="hidden" name="from" value="{{ $from }}">
+            @endif
+
             <div class="search-box">
                 <i class="ri-search-line"></i>
-                <input type="text" placeholder="Search doctor by name, specialty or keyword...">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ $filters['q'] ?? '' }}"
+                    placeholder="Search doctor by name, specialty or keyword..."
+                >
             </div>
 
             <div class="filter-select">
-                <select>
-                    <option>All Specialties</option>
+                <select name="specialization">
+                    <option value="">All Specialties</option>
                     @foreach ($specializations as $specialization)
-                        <option>{{ $specialization }}</option>
+                        <option value="{{ $specialization }}" @selected(($filters['specialization'] ?? '') === $specialization)>
+                            {{ $specialization }}
+                        </option>
                     @endforeach
                 </select>
             </div>
 
             <div class="filter-select">
-                <select>
-                    <option>Availability</option>
-                    <option>Available</option>
-                    <option>Busy</option>
-                    <option>Offline</option>
+                <select name="status">
+                    <option value="">Availability</option>
+                    @foreach (['Available', 'Busy', 'Offline'] as $status)
+                        <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ $status }}</option>
+                    @endforeach
                 </select>
             </div>
 
-            <button class="filter-btn">
+            <button class="filter-btn" type="submit">
                 <i class="ri-equalizer-line"></i>
                 Filter
             </button>
-        </div>
+
+            <a href="{{ route('doctors', $from ? ['from' => $from] : []) }}" class="reset-btn">
+                Reset
+            </a>
+        </form>
 
         <div class="doctors-grid">
             @forelse ($doctors as $doctor)
@@ -88,14 +136,45 @@
                             </p>
                         </div>
 
-                        <div class="doctor-actions">
-                            <a href="{{ auth()->check() ? route(auth()->user()->role === 'doctor' ? 'doctor.dashboard' : (auth()->user()->role === 'admin' ? 'admin.dashboard' : 'patient.dashboard')) : route('login') }}" class="profile-btn">
-                                View Profile
-                            </a>
-                            <a href="{{ auth()->check() ? route(auth()->user()->role === 'patient' ? 'patient.dashboard' : (auth()->user()->role === 'admin' ? 'admin.dashboard' : 'doctor.dashboard')) : route('login') }}" class="appointment-btn">
+                        @if (($dashboardRoute && $from) || $role === 'patient' || ! $role)
+                            <div class="doctor-actions">
+                                @if ($dashboardRoute && $from)
+                                    <a href="{{ route($dashboardRoute) }}" class="profile-btn">
+                                        Dashboard
+                                    </a>
+                                @elseif (! $role)
+                                    <a href="{{ route('login') }}" class="profile-btn">
+                                        Book Appointment
+                                    </a>
+                                @endif
+
+                                @if ($role === 'patient')
+                                    <details class="card-booking">
+                                        <summary class="appointment-btn" title="Book appointment">
+                                            <i class="ri-calendar-line"></i>
+                                        </summary>
+                                        <form method="POST" action="{{ route('appointments.store', $doctor) }}">
+                                            @csrf
+                                            <input type="hidden" name="return_to" value="{{ request()->fullUrl() }}">
+                                            <input type="datetime-local" name="appointment_at" required>
+                                            <input name="reason" placeholder="Reason for visit">
+                                            <button type="submit">Request</button>
+                                        </form>
+                                    </details>
+                                @elseif (! $role)
+                                    <a href="{{ route('login') }}" class="appointment-btn" title="Book appointment">
+                                        <i class="ri-calendar-line"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        @endif
+
+                        @if ($role === 'patient')
+                            <div class="patient-booking-note">
                                 <i class="ri-calendar-line"></i>
-                            </a>
-                        </div>
+                                Select a visit time from the calendar button.
+                            </div>
+                        @endif
                     </div>
                 </div>
             @empty

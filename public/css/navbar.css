@@ -152,7 +152,8 @@
 /* AUTH BUTTONS */
 
 .login-btn,
-.signup-btn{
+.signup-btn,
+.logout-btn{
     padding: 8px 14px;
     border-radius: 999px;
     color: #111827;
@@ -164,8 +165,31 @@
 }
 
 .login-btn:hover,
-.signup-btn:hover{
+.signup-btn:hover,
+.logout-btn:hover{
     color: #2563ff;
+}
+
+.session-pill{
+    max-width:180px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    padding:8px 12px;
+    color:#475569;
+    font-size:0.82rem;
+    font-weight:600;
+}
+
+.nav-logout-form{
+    margin:0;
+}
+
+.logout-btn{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    font-family:inherit;
 }
 
 /* =========================
