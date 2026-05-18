@@ -38,6 +38,13 @@ class AuthController extends Controller
             'role' => $validated['role'],
         ]);
 
+        if ($user->role === 'doctor') {
+            $user->doctorProfile()->create([
+                'title' => 'Doctor',
+                'status' => 'Available',
+            ]);
+        }
+
         Auth::login($user);
         $request->session()->regenerate();
 

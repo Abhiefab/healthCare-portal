@@ -1,708 +1,109 @@
 @extends('layouts.app')
 
 @push('styles')
-
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-/>
-
-<link
-    rel="stylesheet"
-    href="{{ asset('css/doctors.css') }}"
->
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css">
+<link rel="stylesheet" href="{{ asset('css/doctors.css') }}">
 @endpush
 
 @section('title', 'Doctors - Medicom')
 
 @section('content')
-
 <section class="doctors-page">
-
     <div class="container">
-
-        <!-- =========================
-             HERO SECTION
-        ========================== -->
-
         <div class="doctors-hero">
-
             <div class="hero-content">
-
                 <div class="breadcrumb">
-
-                    <a href="{{ route('home') }}">
-                        Home
-                    </a>
-
+                    <a href="{{ route('home') }}">Home</a>
                     <i class="ri-arrow-right-s-line"></i>
-
-                    <span>
-                        Doctors
-                    </span>
-
+                    <span>Doctors</span>
                 </div>
-
-                <h1>
-                    All Doctors
-                </h1>
-
-                <p>
-                    Browse our experienced and qualified doctors across
-                    multiple specialties and healthcare departments.
-                </p>
-
+                <h1>All Doctors</h1>
+                <p>Browse experienced and qualified doctors across multiple specialties and healthcare departments.</p>
             </div>
-
             <div class="hero-image"></div>
-
         </div>
 
-        <!-- =========================
-             FILTER SECTION
-        ========================== -->
-
         <div class="filter-wrapper">
-
             <div class="search-box">
-
                 <i class="ri-search-line"></i>
-
-                <input
-                    type="text"
-                    placeholder="Search doctor by name, specialty or keyword..."
-                >
-
+                <input type="text" placeholder="Search doctor by name, specialty or keyword...">
             </div>
 
             <div class="filter-select">
-
                 <select>
-
                     <option>All Specialties</option>
-                    <option>Cardiology</option>
-                    <option>Neurology</option>
-                    <option>Dermatology</option>
-                    <option>Pediatrics</option>
-                    <option>Orthopedics</option>
-                    <option>Psychiatry</option>
-
+                    @foreach ($specializations as $specialization)
+                        <option>{{ $specialization }}</option>
+                    @endforeach
                 </select>
-
             </div>
 
             <div class="filter-select">
-
                 <select>
-
-                    <option>All Locations</option>
-                    <option>New York</option>
-                    <option>California</option>
-                    <option>Chicago</option>
-                    <option>Boston</option>
-
-                </select>
-
-            </div>
-
-            <div class="filter-select">
-
-                <select>
-
                     <option>Availability</option>
-                    <option>Available Today</option>
-                    <option>Available Tomorrow</option>
-                    <option>Online Consultation</option>
-
+                    <option>Available</option>
+                    <option>Busy</option>
+                    <option>Offline</option>
                 </select>
-
-            </div>
-
-            <div class="filter-select">
-
-                <select>
-
-                    <option>Sort by: Popular</option>
-                    <option>Highest Rated</option>
-                    <option>Most Experienced</option>
-
-                </select>
-
             </div>
 
             <button class="filter-btn">
-
                 <i class="ri-equalizer-line"></i>
-
                 Filter
-
             </button>
-
         </div>
-
-        <!-- =========================
-             DOCTORS GRID
-        ========================== -->
 
         <div class="doctors-grid">
+            @forelse ($doctors as $doctor)
+                <div class="doctor-card">
+                    <div class="doctor-image">
+                        @if ($doctor->image_path)
+                            <img src="{{ asset($doctor->image_path) }}" alt="{{ $doctor->user->name }}">
+                        @else
+                            <div class="doctor-image-fallback">{{ strtoupper(substr($doctor->user->name, 0, 1)) }}</div>
+                        @endif
+                    </div>
 
-            <!-- CARD 1 -->
+                    <div class="doctor-info">
+                        <div class="doctor-status">
+                            <span></span>
+                            {{ $doctor->status }}
+                        </div>
 
-            <div class="doctor-card">
+                        <h3>{{ $doctor->user->name }}</h3>
+                        <h5>{{ $doctor->title }}</h5>
 
-                <div class="doctor-image">
+                        <div class="doctor-meta">
+                            <p>
+                                <i class="ri-star-fill"></i>
+                                {{ number_format($doctor->rating, 1) }} ({{ $doctor->review_count }} reviews)
+                            </p>
+                            <p>
+                                <i class="ri-map-pin-line"></i>
+                                {{ $doctor->location }}
+                            </p>
+                            <p>
+                                <i class="ri-briefcase-line"></i>
+                                {{ $doctor->experience_years }}+ years experience
+                            </p>
+                        </div>
 
-                    <img
-                        src="{{ asset('images/doctors/doctor5.png') }}"
-                        alt="Dr. Michael Carter"
-                    >
-
+                        <div class="doctor-actions">
+                            <a href="{{ auth()->check() ? route(auth()->user()->role === 'doctor' ? 'doctor.dashboard' : (auth()->user()->role === 'admin' ? 'admin.dashboard' : 'patient.dashboard')) : route('login') }}" class="profile-btn">
+                                View Profile
+                            </a>
+                            <a href="{{ auth()->check() ? route(auth()->user()->role === 'patient' ? 'patient.dashboard' : (auth()->user()->role === 'admin' ? 'admin.dashboard' : 'doctor.dashboard')) : route('login') }}" class="appointment-btn">
+                                <i class="ri-calendar-line"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. Michael Carter
-                    </h3>
-
-                    <h5>
-                        Orthopedic Surgeon
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.9 (230 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Main Clinic, New York
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            12+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
+            @empty
+                <div class="empty-state">
+                    No doctors are available yet. Please check back soon.
                 </div>
-
-            </div>
-
-            <!-- CARD 2 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor7.png') }}"
-                        alt="Dr. Sarah Johnson"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. Sarah Johnson
-                    </h3>
-
-                    <h5>
-                        Pediatric Specialist
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.8 (185 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Kids Care Clinic, Boston
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            8+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD 3 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor6.png') }}"
-                        alt="Dr. David Wilson"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. David Wilson
-                    </h3>
-
-                    <h5>
-                        Cardiologist
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.9 (210 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Heart Care Center, Chicago
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            15+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD 4 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor9.png') }}"
-                        alt="Dr. Emily Brown"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. Emily Brown
-                    </h3>
-
-                    <h5>
-                        Dermatologist
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.7 (160 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Skin Health Clinic, California
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            9+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD 5 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor3.png') }}"
-                        alt="Dr. Olivia Martinez"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. Olivia Martinez
-                    </h3>
-
-                    <h5>
-                        Neurologist
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.8 (198 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Neuro Care Institute, Boston
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            11+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD 6 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor2.jpg') }}"
-                        alt="Dr. James Anderson"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. James Anderson
-                    </h3>
-
-                    <h5>
-                        Psychiatrist
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.9 (144 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Mind Wellness Center, Seattle
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            13+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD 7 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor13.png') }}"
-                        alt="Dr. Sophia Lee"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. Sophia Lee
-                    </h3>
-
-                    <h5>
-                        Gynecologist
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.8 (176 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            Women's Health Center, Miami
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            10+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- CARD 8 -->
-
-            <div class="doctor-card">
-
-                <div class="doctor-image">
-
-                    <img
-                        src="{{ asset('images/doctors/doctor10.png') }}"
-                        alt="Dr. Ethan Walker"
-                    >
-
-                </div>
-
-                <div class="doctor-info">
-
-                    <div class="doctor-status">
-
-                        <span></span>
-
-                        Available
-
-                    </div>
-
-                    <h3>
-                        Dr. Ethan Walker
-                    </h3>
-
-                    <h5>
-                        General Physician
-                    </h5>
-
-                    <div class="doctor-meta">
-
-                        <p>
-                            <i class="ri-star-fill"></i>
-                            4.7 (132 reviews)
-                        </p>
-
-                        <p>
-                            <i class="ri-map-pin-line"></i>
-                            City Medical Hospital, Texas
-                        </p>
-
-                        <p>
-                            <i class="ri-briefcase-line"></i>
-                            7+ years experience
-                        </p>
-
-                    </div>
-
-                    <div class="doctor-actions">
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                        </a>
-
-                        <button class="appointment-btn">
-                            <i class="ri-calendar-line"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+            @endforelse
         </div>
-
-        <!-- =========================
-             PAGINATION
-        ========================== -->
-
-        <div class="pagination">
-
-            <button class="page-btn active">
-                1
-            </button>
-
-            <button class="page-btn">
-                2
-            </button>
-
-            <button class="page-btn">
-                3
-            </button>
-
-            <button class="page-btn">
-                <i class="ri-arrow-right-s-line"></i>
-            </button>
-
-        </div>
-
     </div>
-
 </section>
-
 @endsection
