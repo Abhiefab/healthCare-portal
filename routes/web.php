@@ -25,7 +25,17 @@ Route::get('/doctors', function () {
 })->name('doctors');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/dashboard', fn () => abort(404))->name('admin.dashboard');
-    Route::get('/doctor/dashboard', fn () => abort(404))->name('doctor.dashboard');
-    Route::get('/patient/dashboard', fn () => abort(404))->name('patient.dashboard');
+
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/doctor/dashboard', function () {
+        return view('doctor.dashboard');
+    })->name('doctor.dashboard');
+
+    Route::get('/patient/dashboard', function () {
+        return view('patient.dashboard');
+    })->name('patient.dashboard');
+
 });
