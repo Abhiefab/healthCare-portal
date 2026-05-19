@@ -7,9 +7,28 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
+    public function loginForm(Request $request): View|RedirectResponse
+    {
+        if ($request->user()) {
+            return redirect()->route($this->dashboardRouteFor($request->user()->role));
+        }
+
+        return view('auth.login');
+    }
+
+    public function signupForm(Request $request): View|RedirectResponse
+    {
+        if ($request->user()) {
+            return redirect()->route($this->dashboardRouteFor($request->user()->role));
+        }
+
+        return view('auth.signup');
+    }
+
     public function register(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -37,6 +56,13 @@ class AuthController extends Controller
             'password' => $validated['password'],
             'role' => $validated['role'],
         ]);
+
+        if ($user->role === 'doctor') {
+            $user->doctorProfile()->create([
+                'title' => 'Doctor',
+                'status' => 'Available',
+            ]);
+        }
 
         Auth::login($user);
         $request->session()->regenerate();
@@ -76,7 +102,7 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-    private function dashboardRouteFor(?string $role): string
+    public function dashboardRouteFor(?string $role): string
     {
         return match ($role) {
             'admin' => 'admin.dashboard',
