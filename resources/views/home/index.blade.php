@@ -237,12 +237,7 @@
                             <span class="stat-label">Satisfaction Rate</span>
                         </div>
                     </div>
-                    <div class="features-badge">
-                        <span class="badge-icon">🏥</span>
-                        <div>
-                            <strong>Certified Healthcare Provider</strong>
-                            <small>ISO 9001:2015 Certified</small>
-                        </div>
+                    
                     </div>
                 </div>
             </div>

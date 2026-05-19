@@ -39,12 +39,6 @@
         <!-- RIGHT SIDE -->
         <div class="nav-right">
 
-            <!-- THEME BUTTON -->
-            <button id="themeToggle" class="theme-toggle">
-
-                <span>☾</span>
-
-            </button>
 
             <!-- AUTH -->
             <div class="auth-box">
