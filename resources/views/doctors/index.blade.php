@@ -704,5 +704,148 @@
     </div>
 
 </section>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.querySelector(".search-box input");
+
+    const specialtySelect =
+        document.querySelectorAll(".filter-select select")[0];
+
+    const locationSelect =
+        document.querySelectorAll(".filter-select select")[1];
+
+    const availabilitySelect =
+        document.querySelectorAll(".filter-select select")[2];
+
+    const doctorCards =
+        document.querySelectorAll(".doctor-card");
+
+    function filterDoctors() {
+
+        const searchText =
+            searchInput.value.toLowerCase();
+
+        const specialty =
+            specialtySelect.value.toLowerCase();
+
+        const location =
+            locationSelect.value.toLowerCase();
+
+        const availability =
+            availabilitySelect.value.toLowerCase();
+
+        doctorCards.forEach(card => {
+
+            const name =
+                card.querySelector("h3")
+                .innerText
+                .toLowerCase();
+
+            const specialtyText =
+                card.querySelector("h5")
+                .innerText
+                .toLowerCase();
+
+            const locationText =
+                card.querySelector(".doctor-meta")
+                .innerText
+                .toLowerCase();
+
+            const statusText =
+                card.querySelector(".doctor-status")
+                .innerText
+                .toLowerCase();
+
+            let matchesSearch =
+                name.includes(searchText) ||
+                specialtyText.includes(searchText) ||
+                locationText.includes(searchText);
+
+            let matchesSpecialty = true;
+
+            if (specialty !== "all specialties") {
+
+                if (specialty === "orthopedics") {
+                    matchesSpecialty =
+                        specialtyText.includes("orthopedic");
+                }
+
+                else if (specialty === "pediatrics") {
+                    matchesSpecialty =
+                        specialtyText.includes("pediatric");
+                }
+
+                else if (specialty === "cardiology") {
+                    matchesSpecialty =
+                        specialtyText.includes("cardio");
+                }
+
+                else if (specialty === "neurology") {
+                    matchesSpecialty =
+                        specialtyText.includes("neuro");
+                }
+
+                else if (specialty === "dermatology") {
+                    matchesSpecialty =
+                        specialtyText.includes("derma");
+                }
+
+                else if (specialty === "psychiatry") {
+                    matchesSpecialty =
+                        specialtyText.includes("psychi");
+                }
+            }
+
+            let matchesLocation =
+                location === "all locations" ||
+                locationText.includes(location);
+
+            let matchesAvailability =
+                availability === "availability" ||
+                statusText.includes("available");
+
+            if (
+                matchesSearch &&
+                matchesSpecialty &&
+                matchesLocation &&
+                matchesAvailability
+            ) {
+                card.style.display = "block";
+            }
+
+            else {
+                card.style.display = "none";
+            }
+
+        });
+
+    }
+
+    searchInput.addEventListener(
+        "input",
+        filterDoctors
+    );
+
+    specialtySelect.addEventListener(
+        "change",
+        filterDoctors
+    );
+
+    locationSelect.addEventListener(
+        "change",
+        filterDoctors
+    );
+
+    availabilitySelect.addEventListener(
+        "change",
+        filterDoctors
+    );
+
+});
+
+</script>
 
 @endsection
