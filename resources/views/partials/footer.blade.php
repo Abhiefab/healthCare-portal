@@ -14,9 +14,9 @@
             </a>
 
             <p>
-                Modern healthcare solutions designed to provide
-                trusted medical support, specialist consultations,
-                and seamless patient care experiences.
+                Advanced healthcare portal providing appointments,
+                specialist consultations, patient management,
+                diagnostics, and emergency medical support.
             </p>
 
             <div class="footer-socials">
@@ -37,31 +37,50 @@
 
         </div>
 
-        <!-- LINKS -->
+        <!-- RIGHT LINKS -->
         <div class="footer-links-wrapper">
 
-            <!-- COMPANY -->
+            <!-- QUICK LINKS -->
             <div class="footer-links">
 
                 <h4>
-                    Company
+                    Quick Links
                 </h4>
 
-                <a href="#">
-                    About Us
+                <a href="/">
+                    Home
                 </a>
 
-                <a href="#">
-                    Our Doctors
+                <a href="/doctors">
+                    Doctors
                 </a>
 
-                <a href="#">
-                    Careers
+                <a href="/appointments">
+                    Appointments
                 </a>
 
-                <a href="#">
-                    Contact
-                </a>
+                @auth
+
+                    @php
+                        $footerDashboardRoute = match (auth()->user()->role) {
+                            'admin' => 'admin.dashboard',
+                            'doctor' => 'doctor.dashboard',
+                            'patient' => 'patient.dashboard',
+                            default => 'login',
+                        };
+                    @endphp
+
+                    <a href="{{ route($footerDashboardRoute) }}">
+                        Dashboard
+                    </a>
+
+                @else
+
+                    <a href="{{ route('login') }}">
+                        Login
+                    </a>
+
+                @endauth
 
             </div>
 
@@ -69,23 +88,23 @@
             <div class="footer-links">
 
                 <h4>
-                    Services
+                    Medical Services
                 </h4>
 
-                <a href="#">
-                    Appointments
+                <a href="#services">
+                    Cardiology
                 </a>
 
-                <a href="#">
-                    Consultations
+                <a href="/#services">
+                    Neurology
                 </a>
 
-                <a href="#">
-                    Diagnostics
+                <a href="/#services">
+                    Orthopedics
                 </a>
 
-                <a href="#">
-                    Emergency Care
+                <a href="/#services">
+                    Dental Care
                 </a>
 
             </div>
@@ -94,23 +113,23 @@
             <div class="footer-links">
 
                 <h4>
-                    Support
+                    Patient Support
                 </h4>
 
-                <a href="#">
-                    Help Center
+                <a href="#faq">
+                    FAQs
                 </a>
 
-                <a href="#">
-                    Privacy Policy
+                <a href="/contact">
+                    Contact Support
                 </a>
 
-                <a href="#">
-                    Terms & Conditions
+                <a href="/insurance">
+                    Health Insurance
                 </a>
 
-                <a href="#">
-                    FAQ
+                <a href="/emergency">
+                    Emergency Care
                 </a>
 
             </div>
@@ -130,17 +149,17 @@
 
             <div class="footer-bottom-links">
 
-                <a href="#">
-                    Privacy
-                </a>
+                <span>
+                    +91 70502 40563
+                </span>
 
-                <a href="#">
-                    Terms
-                </a>
+                <span>
+                    support@medicom.com
+                </span>
 
-                <a href="#">
-                    Cookies
-                </a>
+                <span>
+                    Punjab, India
+                </span>
 
             </div>
 

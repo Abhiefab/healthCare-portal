@@ -19,11 +19,11 @@
             <!-- BUTTONS -->
             <div class="hero-buttons">
 
-                <a href="#" class="primary-btn">
+                <a href="{{ route('login') }}" class="primary-btn">
                     Book an Appointment
                 </a>
 
-                <a href="#" class="secondary-btn">
+                <a href="#services" class="secondary-btn">
                     View Services
                 </a>
 

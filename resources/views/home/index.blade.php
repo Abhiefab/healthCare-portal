@@ -109,7 +109,7 @@
                         <span class="stars">★★★★★</span>
                         <span class="rating-count">4.9 (120 reviews)</span>
                     </div>
-                    <a href="#" class="doctor-book-btn">Book Appointment</a>
+                    <a href="{{ route('login') }}" class="doctor-book-btn">Book Appointment</a>
                 </div>
             </div>
 
@@ -124,7 +124,7 @@
                         <span class="stars">★★★★★</span>
                         <span class="rating-count">4.8 (98 reviews)</span>
                     </div>
-                    <a href="#" class="doctor-book-btn">Book Appointment</a>
+                    <a href="{{ route('login') }}" class="doctor-book-btn">Book Appointment</a>
                 </div>
             </div>
 
@@ -139,7 +139,7 @@
                         <span class="stars">★★★★★</span>
                         <span class="rating-count">4.9 (210 reviews)</span>
                     </div>
-                    <a href="#" class="doctor-book-btn">Book Appointment</a>
+                    <a href="{{ route('login') }}" class="doctor-book-btn">Book Appointment</a>
                 </div>
             </div>
 
@@ -154,7 +154,7 @@
                         <span class="stars">★★★★☆</span>
                         <span class="rating-count">4.7 (85 reviews)</span>
                     </div>
-                    <a href="#" class="doctor-book-btn">Book Appointment</a>
+                    <a href="{{ route('login') }}" class="doctor-book-btn">Book Appointment</a>
                 </div>
             </div>
 
