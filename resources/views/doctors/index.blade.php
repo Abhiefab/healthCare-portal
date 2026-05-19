@@ -185,4 +185,19 @@
         </div>
     </div>
 </section>
+<script>
+document.addEventListener('click', function (event) {
+
+    const bookings = document.querySelectorAll('.card-booking');
+
+    bookings.forEach((booking) => {
+
+        if (!booking.contains(event.target)) {
+            booking.removeAttribute('open');
+        }
+
+    });
+
+});
+</script>
 @endsection

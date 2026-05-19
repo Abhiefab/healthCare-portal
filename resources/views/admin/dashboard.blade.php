@@ -8,7 +8,7 @@
         <div>
             <div class="sidebar-logo">
                 <i class="ri-heart-pulse-fill"></i>
-                <span>MediCare</span>
+                <span>MediCom</span>
             </div>
 
             <nav class="sidebar-nav">

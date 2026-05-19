@@ -291,6 +291,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 14px;
+    overflow: visible;
 }
 
 /* ========================================
@@ -303,6 +304,7 @@
     padding: 10px;
     border: 1px solid #edf2fb;
     transition: 0.35s ease;
+    overflow: visible;
 }
 
 .doctor-card:hover{
@@ -310,7 +312,9 @@
     box-shadow: 0 10px 24px rgba(30,99,255,0.08);
 }
 
-/* 20% SMALLER IMAGE */
+/* ========================================
+   DOCTOR IMAGE
+======================================== */
 
 .doctor-image{
     width: 100%;
@@ -459,8 +463,16 @@
     color: #fff;
 }
 
+/* ========================================
+   BOOKING POPUP
+======================================== */
+
 .card-booking{
     position:relative;
+}
+
+.card-booking[open]{
+    z-index:99999;
 }
 
 .card-booking summary{
@@ -474,17 +486,22 @@
 .card-booking form{
     position:absolute;
     right:0;
-    top:42px;
-    z-index:8;
-    width:230px;
-    padding:12px;
+    bottom:50px;
+
+    width:240px;
+    padding:14px;
+
     border:1px solid #dbe5f7;
-    border-radius:12px;
-    background:#fff;
-    box-shadow:0 16px 32px rgba(15,23,42,0.14);
+    border-radius:14px;
+    background:#ffffff;
+
+    box-shadow:0 18px 40px rgba(15,23,42,0.12);
+
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:10px;
+
+    z-index:99999;
 }
 
 .card-booking input{
