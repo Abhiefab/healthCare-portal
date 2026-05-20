@@ -15,7 +15,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
-
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
 Route::get('/signup', [AuthController::class, 'signupForm'])->name('signup');
